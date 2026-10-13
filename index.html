@@ -106,8 +106,8 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 
   <section class="tas" id="tas" aria-live="polite">
     <div id="tas-intro">
-      <h2>¿Cuánto vale<br>tu propiedad?</h2>
-      <p class="lead">Respondé 4 preguntas y pedime la tasación por WhatsApp.</p>
+      <h2>¿Querés saber cuánto<br>vale tu propiedad?</h2>
+      <p class="lead">Respondé estas 4 consultas y coordinamos una visita para tasarla.</p>
       <button class="go" type="button" id="tas-start">Empezar</button>
     </div>
     <div id="tas-flow" hidden>
@@ -123,7 +123,6 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 
   <ul class="links">
     <li class="main"><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
-    <li><a href="contacto.vcf" download="contacto.vcf">Guardar contacto</a></li>
     <li><a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a></li>
     <li><a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></li>
     <li><a href="https://www.sceballos.com.ar" target="_blank" rel="noopener">sceballos.com.ar</a></li>
@@ -154,7 +153,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
 <script>
 (function () {
   var WA = '5491157222608';
-  var a = { op: '', zona: '', barrio: '', tipo: '', amb: '', m2: '' };
+  var a = { op: '', zona: '', barrio: '', tipo: '', amb: '', m2: '', dia: '', hora: '' };
   var steps = [
     { q: '¿Qué querés hacer?', render: function () { return chips('op', ['Vender', 'Alquilar']); }, ok: function () { return a.op; } },
     { q: '¿Dónde está la propiedad?', render: function () {
@@ -185,24 +184,29 @@ document.getElementById('copy').addEventListener('click', function (e) {
   }
   function msg() {
     var lugar = a.barrio ? a.barrio + ' (' + a.zona + ')' : a.zona;
-    var s = 'Hola Carla, quiero saber cuánto vale mi propiedad para ' + a.op.toLowerCase() + '.\n' +
+    var cuando = [a.dia && a.dia.toLowerCase(), a.hora && 'por la ' + a.hora.toLowerCase()].filter(Boolean).join(', ');
+    var s = 'Hola Carla, quiero ' + a.op.toLowerCase() + ' mi propiedad y me gustaría coordinar una visita para tasarla.\n' +
       '• Zona: ' + lugar + '\n' +
       '• Tipo: ' + a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes') + '\n' +
       (a.m2 ? '• Superficie: ' + a.m2 + ' m² aprox.\n' : '') +
-      '¿Me ayudás con la tasación?';
+      (cuando ? '• Para la visita me queda mejor: ' + cuando + '\n' : '') +
+      '¿Cuándo podemos coordinar?';
     return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(s);
   }
   function draw() {
     var last = i === steps.length;
-    $('tas-step').textContent = last ? 'Listo' : 'Paso ' + (i + 1) + ' de ' + steps.length;
+    $('tas-step').textContent = last ? 'Visita' : 'Paso ' + (i + 1) + ' de ' + steps.length;
     $('tas-bar').style.width = (last ? 100 : (i / steps.length) * 100) + '%';
     if (last) {
-      $('tas-body').innerHTML = '<p class="q">Esto es lo que me vas a mandar:</p><ul class="sum">' +
+      $('tas-body').innerHTML = '<p class="q">Para tasarla bien necesito verla. ¿Cuándo te queda mejor la visita?</p>' +
+        '<p class="lbl">Días (opcional)</p>' + chips('dia', ['Días de semana', 'Fin de semana']) +
+        '<p class="lbl">Horario (opcional)</p>' + chips('hora', ['Mañana', 'Tarde']) +
+        '<p class="lbl">Tu consulta</p><ul class="sum">' +
         '<li><span>Operación</span>' + esc(a.op) + '</li>' +
         '<li><span>Zona</span>' + esc(a.barrio ? a.barrio + ', ' + a.zona : a.zona) + '</li>' +
         '<li><span>Propiedad</span>' + esc(a.tipo + ', ' + a.amb + ' amb.') + '</li>' +
         (a.m2 ? '<li><span>Superficie</span>' + esc(a.m2) + ' m²</li>' : '') + '</ul>';
-      var n = $('tas-next'); n.outerHTML = '<a class="go wa" id="tas-next" target="_blank" rel="noopener" href="' + msg() + '">Enviar por WhatsApp</a>';
+      var n = $('tas-next'); n.outerHTML = '<a class="go wa" id="tas-next" target="_blank" rel="noopener" href="' + msg() + '">Agendar visita</a>';
       return;
     }
     var nx = $('tas-next');
@@ -216,7 +220,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
   }
   $('tas-body').addEventListener('click', function (e) {
     var o = e.target.closest('.opt'); if (!o) return;
-    save(); a[o.dataset.k] = o.dataset.v; draw();
+    save(); var k = o.dataset.k; a[k] = (i === steps.length && a[k] === o.dataset.v) ? '' : o.dataset.v; draw();
     if (i === 0) { i++; draw(); }
   });
   $('tas-start').addEventListener('click', function () { $('tas-intro').hidden = true; $('tas-flow').hidden = false; draw(); });
