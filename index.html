@@ -56,6 +56,32 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 .copy:focus-visible{outline:1px solid var(--terra);outline-offset:3px}
 
 .note{max-width:360px;margin:48px auto 0;font-size:.68rem;color:var(--muted)}
+
+/* Tasador */
+.tas{border:1px solid var(--line);padding:22px 20px;margin:0 0 32px}
+.tas h2{font-weight:300;font-size:1.25rem;letter-spacing:.06em;text-transform:uppercase;margin:0;line-height:1.2}
+.tas .lead{font-size:.85rem;color:var(--muted);margin:8px 0 18px}
+.tas .step{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--terra);margin:0 0 6px}
+.tas .q{font-size:1rem;font-weight:400;margin:0 0 14px}
+.tas .lbl{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font:400 .74rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--line);padding:10px 14px;cursor:pointer;transition:border-color .15s ease, color .15s ease}
+.opt:hover{border-color:var(--ink)}
+.opt[aria-pressed="true"]{border-color:var(--terra);color:var(--terra)}
+.opt:focus-visible,.go:focus-visible,.back:focus-visible,.tas input:focus-visible{outline:1px solid var(--terra);outline-offset:2px}
+.tas input{width:100%;font:300 1rem var(--sans);color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);padding:8px 0;border-radius:0}
+.tas input::placeholder{color:var(--muted)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+.go{font:400 .7rem var(--sans);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;color:var(--bg);background:var(--ink);border:1px solid var(--ink);padding:12px 18px;cursor:pointer;display:inline-block}
+.go[disabled]{opacity:.35;cursor:default}
+.go.wa{background:var(--terra);border-color:var(--terra);color:#FFFFFF}
+.back{font:400 .66rem var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--muted);background:none;border:0;padding:4px 0;cursor:pointer}
+.sum{list-style:none;margin:0;padding:0;font-size:.88rem}
+.sum li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.sum span{color:var(--muted)}
+.bar{height:1px;background:var(--line);margin:0 0 18px;position:relative}
+.bar i{position:absolute;left:0;top:0;height:1px;background:var(--terra);transition:width .25s ease}
+@media (prefers-reduced-motion: reduce){.bar i,.opt{transition:none}}
 @media (prefers-reduced-motion: reduce){.links a,.links a::after{transition:none}}
 </style>
 </head>
@@ -77,6 +103,23 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
   </p>
 
   <p class="pitch">Detrás de cada decisión hay una historia: un final o un nuevo comienzo. Mi compromiso es acompañarte con un asesoramiento profesional, para que decidas con tranquilidad.</p>
+
+  <section class="tas" id="tas" aria-live="polite">
+    <div id="tas-intro">
+      <h2>¿Cuánto vale<br>tu propiedad?</h2>
+      <p class="lead">Respondé 4 preguntas y pedime la tasación por WhatsApp.</p>
+      <button class="go" type="button" id="tas-start">Empezar</button>
+    </div>
+    <div id="tas-flow" hidden>
+      <p class="step" id="tas-step"></p>
+      <div class="bar"><i id="tas-bar"></i></div>
+      <div id="tas-body"></div>
+      <div class="nav">
+        <button class="back" type="button" id="tas-back">Volver</button>
+        <button class="go" type="button" id="tas-next">Siguiente</button>
+      </div>
+    </div>
+  </section>
 
   <ul class="links">
     <li class="main"><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
@@ -106,6 +149,84 @@ document.getElementById('copy').addEventListener('click', function (e) {
     .catch(function () { b.textContent = url; });
   setTimeout(function () { b.textContent = 'Compartir'; }, 2500);
 });
+</script>
+
+<script>
+(function () {
+  var WA = '5491157222608';
+  var a = { op: '', zona: '', barrio: '', tipo: '', amb: '', m2: '' };
+  var steps = [
+    { q: '¿Qué querés hacer?', render: function () { return chips('op', ['Vender', 'Alquilar']); }, ok: function () { return a.op; } },
+    { q: '¿Dónde está la propiedad?', render: function () {
+        return chips('zona', ['CABA', 'GBA', 'Zona Oeste', 'Otra']) +
+          '<p class="lbl">Barrio o localidad</p><input id="f-barrio" type="text" autocomplete="off" placeholder="Ej: Caballito" value="' + esc(a.barrio) + '">';
+      }, ok: function () { return a.zona; } },
+    { q: '¿Qué tipo de propiedad es?', render: function () {
+        return chips('tipo', ['Departamento', 'Casa', 'PH', 'Otro']) +
+          '<p class="lbl">Ambientes</p>' + chips('amb', ['1', '2', '3', '4', '5 o más']);
+      }, ok: function () { return a.tipo && a.amb; } },
+    { q: '¿Cuántos m² tiene, más o menos?', render: function () {
+        return '<input id="f-m2" type="number" inputmode="numeric" min="10" placeholder="Ej: 65" value="' + esc(a.m2) + '">' +
+          '<p class="lbl">Si no sabés, dejalo vacío</p>';
+      }, ok: function () { return true; } }
+  ];
+  var i = 0;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function chips(key, list) {
+    return '<div class="opts" role="group">' + list.map(function (v) {
+      return '<button type="button" class="opt" data-k="' + key + '" data-v="' + v + '" aria-pressed="' + (a[key] === v) + '">' + v + '</button>';
+    }).join('') + '</div>';
+  }
+  function save() {
+    var b = $('f-barrio'), m = $('f-m2');
+    if (b) a.barrio = b.value.trim();
+    if (m) a.m2 = m.value.trim();
+  }
+  function msg() {
+    var lugar = a.barrio ? a.barrio + ' (' + a.zona + ')' : a.zona;
+    var s = 'Hola Carla, quiero saber cuánto vale mi propiedad para ' + a.op.toLowerCase() + '.\n' +
+      '• Zona: ' + lugar + '\n' +
+      '• Tipo: ' + a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes') + '\n' +
+      (a.m2 ? '• Superficie: ' + a.m2 + ' m² aprox.\n' : '') +
+      '¿Me ayudás con la tasación?';
+    return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(s);
+  }
+  function draw() {
+    var last = i === steps.length;
+    $('tas-step').textContent = last ? 'Listo' : 'Paso ' + (i + 1) + ' de ' + steps.length;
+    $('tas-bar').style.width = (last ? 100 : (i / steps.length) * 100) + '%';
+    if (last) {
+      $('tas-body').innerHTML = '<p class="q">Esto es lo que me vas a mandar:</p><ul class="sum">' +
+        '<li><span>Operación</span>' + esc(a.op) + '</li>' +
+        '<li><span>Zona</span>' + esc(a.barrio ? a.barrio + ', ' + a.zona : a.zona) + '</li>' +
+        '<li><span>Propiedad</span>' + esc(a.tipo + ', ' + a.amb + ' amb.') + '</li>' +
+        (a.m2 ? '<li><span>Superficie</span>' + esc(a.m2) + ' m²</li>' : '') + '</ul>';
+      var n = $('tas-next'); n.outerHTML = '<a class="go wa" id="tas-next" target="_blank" rel="noopener" href="' + msg() + '">Enviar por WhatsApp</a>';
+      return;
+    }
+    var nx = $('tas-next');
+    if (nx.tagName === 'A') { nx.outerHTML = '<button class="go" type="button" id="tas-next">Siguiente</button>'; bindNext(); }
+    $('tas-body').innerHTML = '<p class="q">' + steps[i].q + '</p>' + steps[i].render();
+    $('tas-next').textContent = i === steps.length - 1 ? 'Ver resumen' : 'Siguiente';
+    $('tas-next').disabled = !steps[i].ok();
+  }
+  function bindNext() {
+    $('tas-next').addEventListener('click', function () { save(); if (steps[i] && steps[i].ok()) { i++; draw(); } });
+  }
+  $('tas-body').addEventListener('click', function (e) {
+    var o = e.target.closest('.opt'); if (!o) return;
+    save(); a[o.dataset.k] = o.dataset.v; draw();
+    if (i === 0) { i++; draw(); }
+  });
+  $('tas-start').addEventListener('click', function () { $('tas-intro').hidden = true; $('tas-flow').hidden = false; draw(); });
+  $('tas-back').addEventListener('click', function () {
+    save();
+    if (i === 0) { $('tas-flow').hidden = true; $('tas-intro').hidden = false; return; }
+    i--; draw();
+  });
+  bindNext();
+})();
 </script>
 </body>
 </html>
