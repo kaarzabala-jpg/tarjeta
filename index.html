@@ -58,25 +58,32 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 .note{max-width:360px;margin:48px auto 0;font-size:.68rem;color:var(--muted)}
 
 /* Tasador */
-.tas{border:1px solid var(--line);padding:22px 20px;margin:0 0 32px}
+.tas{border-bottom:1px solid var(--line)}
+.tas-row{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 2px;background:none;border:0;cursor:pointer;
+  color:var(--terra);font:400 .74rem var(--sans);letter-spacing:.26em;text-transform:uppercase;text-align:left;gap:16px;line-height:1.6}
+.tas-row::after{flex:none}
+.tas-row::after{content:"";width:18px;height:1px;background:currentColor;transition:transform .2s ease}
+.tas-row[aria-expanded="true"]::after{transform:rotate(90deg)}
+.tas-row:focus-visible{outline:1px solid var(--terra);outline-offset:2px}
+#tas-flow{padding:4px 2px 22px}
 .tas h2{font-weight:300;font-size:1.25rem;letter-spacing:.06em;text-transform:uppercase;margin:0;line-height:1.2}
-.tas .lead{font-size:.85rem;color:var(--muted);margin:8px 0 18px}
+.tas .lead{font-size:.8rem;color:var(--muted);margin:0 0 18px}
 .tas .step{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--terra);margin:0 0 6px}
-.tas .q{font-size:1rem;font-weight:400;margin:0 0 14px}
+.tas .q{font-size:.95rem;font-weight:300;margin:0 0 14px}
 .tas .lbl{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
-.opt{font:400 .74rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--line);padding:10px 14px;cursor:pointer;transition:border-color .15s ease, color .15s ease}
+.opt{font:400 .66rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--line);padding:8px 12px;cursor:pointer;transition:border-color .15s ease, color .15s ease}
 .opt:hover{border-color:var(--ink)}
 .opt[aria-pressed="true"]{border-color:var(--terra);color:var(--terra)}
 .opt:focus-visible,.go:focus-visible,.back:focus-visible,.tas input:focus-visible{outline:1px solid var(--terra);outline-offset:2px}
 .tas input{width:100%;font:300 1rem var(--sans);color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);padding:8px 0;border-radius:0}
 .tas input::placeholder{color:var(--muted)}
 .nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
-.go{font:400 .7rem var(--sans);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;color:var(--bg);background:var(--ink);border:1px solid var(--ink);padding:12px 18px;cursor:pointer;display:inline-block}
+.go{font:400 .68rem var(--sans);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:none;border:0;border-bottom:1px solid currentColor;padding:4px 0;cursor:pointer;display:inline-block}
 .go[disabled]{opacity:.35;cursor:default}
-.go.wa{background:var(--terra);border-color:var(--terra);color:#FFFFFF}
+.go.wa{color:var(--terra)}
 .back{font:400 .66rem var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--muted);background:none;border:0;padding:4px 0;cursor:pointer}
-.sum{list-style:none;margin:0;padding:0;font-size:.88rem}
+.sum{list-style:none;margin:0;padding:0;font-size:.82rem}
 .sum li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
 .sum span{color:var(--muted)}
 .bar{height:1px;background:var(--line);margin:0 0 18px;position:relative}
@@ -86,6 +93,7 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 </style>
 </head>
 <body>
+
 
 <main>
   <div class="top">
@@ -104,13 +112,18 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 
   <p class="pitch">Detrás de cada decisión hay una historia: un final o un nuevo comienzo. Mi compromiso es acompañarte con un asesoramiento profesional, para que decidas con tranquilidad.</p>
 
+
+  <ul class="links">
+    <li class="main"><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
+    <li><a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://www.sceballos.com.ar" target="_blank" rel="noopener">sceballos.com.ar</a></li>
+  </ul>
+
   <section class="tas" id="tas" aria-live="polite">
-    <div id="tas-intro">
-      <h2>¿Querés saber cuánto<br>vale tu propiedad?</h2>
-      <p class="lead">Respondé estas 4 consultas y coordinamos una visita para tasarla.</p>
-      <button class="go" type="button" id="tas-start">Empezar</button>
-    </div>
+    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Quiero saber el valor de mi propiedad sin costo</button>
     <div id="tas-flow" hidden>
+      <p class="lead">Respondé estas 4 consultas y agendamos la visita de tasación, sin costo.</p>
       <p class="step" id="tas-step"></p>
       <div class="bar"><i id="tas-bar"></i></div>
       <div id="tas-body"></div>
@@ -120,13 +133,6 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
       </div>
     </div>
   </section>
-
-  <ul class="links">
-    <li class="main"><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
-    <li><a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a></li>
-    <li><a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></li>
-    <li><a href="https://www.sceballos.com.ar" target="_blank" rel="noopener">sceballos.com.ar</a></li>
-  </ul>
 
   <div class="foot">
     <div class="qr" id="qr" aria-label="Código QR de esta tarjeta"></div>
@@ -155,7 +161,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
   var WA = '5491157222608';
   var a = { op: '', zona: '', barrio: '', tipo: '', amb: '', m2: '', dia: '', hora: '' };
   var steps = [
-    { q: '¿Qué querés hacer?', render: function () { return chips('op', ['Vender', 'Alquilar']); }, ok: function () { return a.op; } },
+    { q: 'Me interesa…', render: function () { return chips('op', ['Vender', 'Alquilar']); }, ok: function () { return a.op; } },
     { q: '¿Dónde está la propiedad?', render: function () {
         return chips('zona', ['CABA', 'GBA', 'Zona Oeste', 'Otra']) +
           '<p class="lbl">Barrio o localidad</p><input id="f-barrio" type="text" autocomplete="off" placeholder="Ej: Caballito" value="' + esc(a.barrio) + '">';
@@ -185,12 +191,11 @@ document.getElementById('copy').addEventListener('click', function (e) {
   function msg() {
     var lugar = a.barrio ? a.barrio + ' (' + a.zona + ')' : a.zona;
     var cuando = [a.dia && a.dia.toLowerCase(), a.hora && 'por la ' + a.hora.toLowerCase()].filter(Boolean).join(', ');
-    var s = 'Hola Carla, quiero ' + a.op.toLowerCase() + ' mi propiedad y me gustaría coordinar una visita para tasarla.\n' +
-      '• Zona: ' + lugar + '\n' +
-      '• Tipo: ' + a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes') + '\n' +
-      (a.m2 ? '• Superficie: ' + a.m2 + ' m² aprox.\n' : '') +
-      (cuando ? '• Para la visita me queda mejor: ' + cuando + '\n' : '') +
-      '¿Cuándo podemos coordinar?';
+    var s = 'Hola Carla, me interesa ' + a.op.toLowerCase() + ' mi propiedad. Te dejo algunos datos:\n' +
+      '• ' + lugar + '\n' +
+      '• ' + a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes') + (a.m2 ? ', ' + a.m2 + ' m²' : '') + '\n' +
+      (cuando ? '• Para una visita: ' + cuando + '\n' : '') +
+      '¡Gracias!';
     return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(s);
   }
   function draw() {
@@ -198,7 +203,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
     $('tas-step').textContent = last ? 'Visita' : 'Paso ' + (i + 1) + ' de ' + steps.length;
     $('tas-bar').style.width = (last ? 100 : (i / steps.length) * 100) + '%';
     if (last) {
-      $('tas-body').innerHTML = '<p class="q">Para tasarla bien necesito verla. ¿Cuándo te queda mejor la visita?</p>' +
+      $('tas-body').innerHTML = '<p class="q">Agendá tu visita. ¿Cuándo te queda mejor?</p>' +
         '<p class="lbl">Días (opcional)</p>' + chips('dia', ['Días de semana', 'Fin de semana']) +
         '<p class="lbl">Horario (opcional)</p>' + chips('hora', ['Mañana', 'Tarde']) +
         '<p class="lbl">Tu consulta</p><ul class="sum">' +
@@ -223,10 +228,12 @@ document.getElementById('copy').addEventListener('click', function (e) {
     save(); var k = o.dataset.k; a[k] = (i === steps.length && a[k] === o.dataset.v) ? '' : o.dataset.v; draw();
     if (i === 0) { i++; draw(); }
   });
-  $('tas-start').addEventListener('click', function () { $('tas-intro').hidden = true; $('tas-flow').hidden = false; draw(); });
+  $('tas-start').addEventListener('click', function () {
+    var open = $('tas-flow').hidden; $('tas-flow').hidden = !open; this.setAttribute('aria-expanded', open); if (open) draw();
+  });
   $('tas-back').addEventListener('click', function () {
     save();
-    if (i === 0) { $('tas-flow').hidden = true; $('tas-intro').hidden = false; return; }
+    if (i === 0) { $('tas-flow').hidden = true; $('tas-start').setAttribute('aria-expanded', 'false'); return; }
     i--; draw();
   });
   bindNext();
