@@ -31,8 +31,10 @@ main{max-width:360px;margin:0 auto;display:flex;flex-direction:column}
 .photo{width:112px;height:112px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
 .logo{width:26px;height:36px;color:var(--terra)}
 
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:18px;align-items:center}
+.hero .photo{width:96px;height:96px}
 .kicker{margin:0;font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
-h1{font-weight:300;font-size:2rem;line-height:1.12;margin:14px 0 0;text-wrap:balance}
+h1{font-weight:300;font-size:1.75rem;line-height:1.12;margin:14px 0 0;text-wrap:balance}
 h1 b{font-weight:600}
 .firma{margin:18px 0 0;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
 .role{font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;margin:10px 0 0}
@@ -99,9 +101,14 @@ h1 b{font-weight:600}
 
 
 <main>
-  <p class="kicker">Asesora inmobiliaria</p>
-  <h1>Una mirada integral<br><b>del negocio inmobiliario</b></h1>
-  <p class="firma">Carla Zabala</p>
+  <div class="hero">
+    <div>
+      <p class="kicker">Asesora inmobiliaria</p>
+      <h1>Una mirada integral <b>del negocio inmobiliario</b></h1>
+      <p class="firma">Carla Zabala</p>
+    </div>
+    <img class="photo" src="carla-zabala.jpg" width="96" height="96" alt="Carla Zabala">
+  </div>
   <div class="rule"></div>
 
   <p class="meta">
