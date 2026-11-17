@@ -11,7 +11,7 @@
 <title>Tarjeta Carla Zabala</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap">
 <style>
 /* Layout: flat, left-aligned column like the Instagram posts: thin caps, wide tracking, one terracotta hairline */
 :root{
@@ -31,7 +31,10 @@ main{max-width:360px;margin:0 auto;display:flex;flex-direction:column}
 .photo{width:112px;height:112px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
 .logo{width:26px;height:36px;color:var(--terra)}
 
-h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-transform:uppercase;margin:36px 0 0}
+.kicker{margin:0;font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+h1{font-weight:300;font-size:2rem;line-height:1.12;margin:14px 0 0;text-wrap:balance}
+h1 b{font-weight:600}
+.firma{margin:18px 0 0;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
 .role{font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;margin:10px 0 0}
 .rule{width:56px;height:1px;background:var(--terra);margin:24px 0}
 .meta{font-size:.82rem;color:var(--muted);margin:0;display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
@@ -96,12 +99,9 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
 
 
 <main>
-  <div class="top">
-    <img class="photo" src="carla-zabala.jpg" width="112" height="112" alt="Carla Zabala">
-  </div>
-
-  <h1>Carla<br>Zabala</h1>
-  <p class="role">Asesora inmobiliaria</p>
+  <p class="kicker">Asesora inmobiliaria</p>
+  <h1>Una mirada integral<br><b>del negocio inmobiliario</b></h1>
+  <p class="firma">Carla Zabala</p>
   <div class="rule"></div>
 
   <p class="meta">
@@ -121,9 +121,9 @@ h1{font-weight:300;font-size:2.1rem;line-height:1.05;letter-spacing:.06em;text-t
   </ul>
 
   <section class="tas" id="tas" aria-live="polite">
-    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Quiero saber el valor de mi propiedad sin costo</button>
+    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Quiero saber el valor de mi propiedad</button>
     <div id="tas-flow" hidden>
-      <p class="lead">Respondé estas 4 consultas y agendamos la visita de tasación, sin costo.</p>
+      <p class="lead">Respondé estas 4 consultas y agendamos la visita de tasación.</p>
       <p class="step" id="tas-step"></p>
       <div class="bar"><i id="tas-bar"></i></div>
       <div id="tas-body"></div>
