@@ -80,9 +80,17 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
 /* Two primary paths */
 .tas{border:0}
 .paths{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.path{font:500 .68rem var(--sans);letter-spacing:.18em;text-transform:uppercase;padding:16px 8px;cursor:pointer;background:var(--ink);color:#FFFFFF;border:1px solid var(--ink)}
+.path{font:500 .68rem var(--sans);letter-spacing:.18em;text-transform:uppercase;padding:18px 14px;cursor:pointer;background:var(--ink);color:#FFFFFF;border:1px solid var(--ink);text-align:left;display:flex;flex-direction:column;gap:6px;transition:transform .2s ease, box-shadow .2s ease}
+.path small{font-size:.66rem;font-weight:300;letter-spacing:.02em;text-transform:none;opacity:.8;line-height:1.35}
+.path:hover{transform:translateY(-2px);box-shadow:0 10px 20px -14px rgba(51,51,51,.6)}
 .path.alt{background:#FFFFFF;color:var(--ink)}
 .path[aria-expanded="true"]{outline:2px solid var(--nude);outline-offset:2px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+main>:not(.wm){animation:rise .6s ease both}
+main>:nth-child(3){animation-delay:.08s}main>:nth-child(4){animation-delay:.16s}main>:nth-child(5){animation-delay:.24s}main>:nth-child(6){animation-delay:.32s}main>:nth-child(n+7){animation-delay:.4s}
+#c-body{animation:rise .35s ease both}
+.wm{animation:fadewm 1.2s ease both}@keyframes fadewm{from{opacity:0}to{opacity:.55}}
+@media (prefers-reduced-motion: reduce){main>*,#c-body,.wm{animation:none!important}.path{transition:none}}
 .contact{margin:0;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
 .contact span{width:100%;font-size:.6rem;font-weight:600;letter-spacing:.24em;color:var(--muted)}
 .contact a{border-bottom:1px solid var(--nude);padding-bottom:1px}
@@ -102,7 +110,7 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
 
   <div class="id">
     <img class="photo" src="carla-zabala.jpg" width="58" height="58" alt="Carla Zabala">
-    <p><b>Carla Zabala</b><br><small>Asesora inmobiliaria</small></p>
+    <p><b>Carla Zabala</b><br><small>Asesora inmobiliaria</small><br><small>Mat. CUCICBA 7817 · CSI 6351</small></p>
   </div>
 
   <h1>¿Estás pensando en <b>vender o comprar una propiedad?</b></h1>
@@ -110,8 +118,8 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
 
   <section class="tas" id="tas" aria-live="polite">
     <div class="paths">
-      <button class="path" type="button" data-path="vender" aria-expanded="false">Quiero vender</button>
-      <button class="path alt" type="button" data-path="comprar" aria-expanded="false">Quiero comprar</button>
+      <button class="path" type="button" data-path="vender" aria-expanded="false"><span>Quiero vender</span><small>Tasación y estrategia de venta</small></button>
+      <button class="path alt" type="button" data-path="comprar" aria-expanded="false"><span>Quiero comprar</span><small>Te ayudo a encontrar la indicada</small></button>
     </div>
     <div id="tas-flow" hidden>
       <p class="step" id="c-step"></p>
@@ -133,7 +141,6 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
     <a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></p>
 
   <div class="where"><b>Dónde encontrarme</b>SCeballos Negocios Inmobiliarios<br>CABA · GBA · Zona Oeste</div>
-  <p class="mat">CUCICBA 7817 · CSI 6351</p>
 
   <div class="foot">
     <div class="qr" id="qr" aria-label="Código QR de esta tarjeta"></div>
@@ -196,7 +203,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
     var st = flows[path];
     $('c-step').textContent = (path === 'vender' ? 'Vender' : 'Comprar') + ' · Paso ' + (i + 1) + ' de ' + st.length;
     $('c-bar').style.width = ((i + 1) / st.length * 100) + '%';
-    $('c-body').innerHTML = '<p class="q">' + st[i].q + '</p>' + st[i].html();
+    var cb = $('c-body'); cb.style.animation = 'none'; void cb.offsetWidth; cb.style.animation = ''; cb.innerHTML = '<p class="q">' + st[i].q + '</p>' + st[i].html();
     $('c-next').textContent = i === st.length - 1 ? 'Enviar consulta' : 'Siguiente';
     $('c-err').hidden = true;
   }
