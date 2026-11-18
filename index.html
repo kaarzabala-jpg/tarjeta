@@ -23,7 +23,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:3
 main{position:relative;max-width:380px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
 main>*{position:relative}
 html{overflow-x:hidden}
-.wm{position:absolute!important;width:200px;height:280px;right:-24px;bottom:40px;color:var(--mark);pointer-events:none;z-index:0}
+.wm{position:absolute!important;width:190px;height:auto;right:-20px;bottom:40px;opacity:.55;pointer-events:none;z-index:0}
 a{color:inherit;text-decoration:none}
 a:focus-visible,button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
 .id{display:flex;align-items:center;gap:14px}
@@ -81,17 +81,16 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
 .tas{border:0}
 .tas-row{background:var(--ink)!important;color:#FFFFFF!important;padding:16px 18px!important;font:500 .7rem var(--sans)!important;letter-spacing:.2em!important}
 #tas-flow{padding:18px 2px 8px;border-bottom:1px solid var(--line)}
+.fields{display:flex;flex-direction:column;gap:14px}
+.fields label{display:flex;flex-direction:column;font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.fields input{margin-top:4px;font:300 1rem var(--sans);text-transform:none;letter-spacing:0}
+.err{margin:12px 0 0;font-size:.76rem;color:#A1452B}
 </style>
 </head>
 <body>
 
 <main>
-  <svg class="wm" viewBox="0 0 60 84" aria-hidden="true">
-    <path d="M4 82V29a26 26 0 0 1 52 0v53z" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="30" y="56" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-style="italic" font-size="30" fill="currentColor">S</text>
-    <path d="M38 40a12 12 0 1 0 0 18" fill="none" stroke="currentColor" stroke-width="1.6"/>
-    <circle cx="44" cy="52" r="1.8" fill="currentColor"/>
-  </svg>
+  <img class="wm" src="logo-sc.png" alt="" aria-hidden="true">
 
   <div class="id">
     <img class="photo" src="carla-zabala.jpg" width="58" height="58" alt="Carla Zabala">
@@ -102,16 +101,32 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
   <p class="pitch">Detrás de cada decisión hay una historia: un final o un nuevo comienzo. Mi compromiso es acompañarte con un asesoramiento profesional, para que decidas con tranquilidad.</p>
 
   <section class="tas" id="tas" aria-live="polite">
-    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Quiero vender</button>
+    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Hacé tu consulta</button>
     <div id="tas-flow" hidden>
-      <p class="lead">Respondé estas 4 consultas y agendamos la visita de tasación.</p>
-      <p class="step" id="tas-step"></p>
-      <div class="bar"><i id="tas-bar"></i></div>
-      <div id="tas-body"></div>
-      <div class="nav">
-        <button class="back" type="button" id="tas-back">Volver</button>
-        <button class="go" type="button" id="tas-next">Siguiente</button>
+      <div id="c-step1">
+        <p class="step">Paso 1 de 2</p>
+        <p class="q">¿En qué te puedo ayudar?</p>
+        <div class="opts" role="group">
+          <button type="button" class="opt" data-v="Vender">Vender</button>
+          <button type="button" class="opt" data-v="Comprar">Comprar</button>
+          <button type="button" class="opt" data-v="Asesoramiento profesional">Asesoramiento profesional</button>
+        </div>
       </div>
+      <form id="c-step2" hidden novalidate>
+        <p class="step">Paso 2 de 2</p>
+        <p class="q" id="c-title"></p>
+        <div class="fields">
+          <label>Nombre<input id="f-nombre" type="text" autocomplete="given-name" required></label>
+          <label>Apellido<input id="f-apellido" type="text" autocomplete="family-name" required></label>
+          <label>Mail<input id="f-mail" type="email" autocomplete="email" required></label>
+          <label>Teléfono<input id="f-tel" type="tel" autocomplete="tel" inputmode="tel" required></label>
+        </div>
+        <p class="err" id="c-err" hidden>Completá todos los datos para enviar la consulta.</p>
+        <div class="nav">
+          <button class="back" type="button" id="c-back">Volver</button>
+          <button class="go" type="submit">Enviar consulta</button>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -148,85 +163,33 @@ document.getElementById('copy').addEventListener('click', function (e) {
 
 <script>
 (function () {
-  var WA = '5491157222608';
-  var a = { op: '', zona: '', barrio: '', tipo: '', amb: '', m2: '', dia: '', hora: '' };
-  var steps = [
-    { q: 'Me interesa…', render: function () { return chips('op', ['Vender', 'Alquilar']); }, ok: function () { return a.op; } },
-    { q: '¿Dónde está la propiedad?', render: function () {
-        return chips('zona', ['CABA', 'GBA', 'Zona Oeste', 'Otra']) +
-          '<p class="lbl">Barrio o localidad</p><input id="f-barrio" type="text" autocomplete="off" placeholder="Ej: Caballito" value="' + esc(a.barrio) + '">';
-      }, ok: function () { return a.zona; } },
-    { q: '¿Qué tipo de propiedad es?', render: function () {
-        return chips('tipo', ['Departamento', 'Casa', 'PH', 'Otro']) +
-          '<p class="lbl">Ambientes</p>' + chips('amb', ['1', '2', '3', '4', '5 o más']);
-      }, ok: function () { return a.tipo && a.amb; } },
-    { q: '¿Cuántos m² tiene, más o menos?', render: function () {
-        return '<input id="f-m2" type="number" inputmode="numeric" min="10" placeholder="Ej: 65" value="' + esc(a.m2) + '">' +
-          '<p class="lbl">Si no sabés, dejalo vacío</p>';
-      }, ok: function () { return true; } }
-  ];
-  var i = 0;
+  var WA = '5491157222608', tipo = '';
   var $ = function (id) { return document.getElementById(id); };
-  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function chips(key, list) {
-    return '<div class="opts" role="group">' + list.map(function (v) {
-      return '<button type="button" class="opt" data-k="' + key + '" data-v="' + v + '" aria-pressed="' + (a[key] === v) + '">' + v + '</button>';
-    }).join('') + '</div>';
-  }
-  function save() {
-    var b = $('f-barrio'), m = $('f-m2');
-    if (b) a.barrio = b.value.trim();
-    if (m) a.m2 = m.value.trim();
-  }
-  function msg() {
-    var lugar = a.barrio ? a.barrio + ' (' + a.zona + ')' : a.zona;
-    var cuando = [a.dia && a.dia.toLowerCase(), a.hora && 'por la ' + a.hora.toLowerCase()].filter(Boolean).join(', ');
-    var s = 'Hola Carla, me interesa ' + a.op.toLowerCase() + ' mi propiedad. Te dejo algunos datos:\n' +
-      '• ' + lugar + '\n' +
-      '• ' + a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes') + (a.m2 ? ', ' + a.m2 + ' m²' : '') + '\n' +
-      (cuando ? '• Para una visita: ' + cuando + '\n' : '') +
-      '¡Gracias!';
-    return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(s);
-  }
-  function draw() {
-    var last = i === steps.length;
-    $('tas-step').textContent = last ? 'Visita' : 'Paso ' + (i + 1) + ' de ' + steps.length;
-    $('tas-bar').style.width = (last ? 100 : (i / steps.length) * 100) + '%';
-    if (last) {
-      $('tas-body').innerHTML = '<p class="q">Agendá tu visita. ¿Cuándo te queda mejor?</p>' +
-        '<p class="lbl">Días (opcional)</p>' + chips('dia', ['Días de semana', 'Fin de semana']) +
-        '<p class="lbl">Horario (opcional)</p>' + chips('hora', ['Mañana', 'Tarde']) +
-        '<p class="lbl">Tu consulta</p><ul class="sum">' +
-        '<li><span>Operación</span>' + esc(a.op) + '</li>' +
-        '<li><span>Zona</span>' + esc(a.barrio ? a.barrio + ', ' + a.zona : a.zona) + '</li>' +
-        '<li><span>Propiedad</span>' + esc(a.tipo + ', ' + a.amb + ' amb.') + '</li>' +
-        (a.m2 ? '<li><span>Superficie</span>' + esc(a.m2) + ' m²</li>' : '') + '</ul>';
-      var n = $('tas-next'); n.outerHTML = '<a class="go wa" id="tas-next" target="_blank" rel="noopener" href="' + msg() + '">Agendar visita</a>';
-      return;
-    }
-    var nx = $('tas-next');
-    if (nx.tagName === 'A') { nx.outerHTML = '<button class="go" type="button" id="tas-next">Siguiente</button>'; bindNext(); }
-    $('tas-body').innerHTML = '<p class="q">' + steps[i].q + '</p>' + steps[i].render();
-    $('tas-next').textContent = i === steps.length - 1 ? 'Ver resumen' : 'Siguiente';
-    $('tas-next').disabled = !steps[i].ok();
-  }
-  function bindNext() {
-    $('tas-next').addEventListener('click', function () { save(); if (steps[i] && steps[i].ok()) { i++; draw(); } });
-  }
-  $('tas-body').addEventListener('click', function (e) {
-    var o = e.target.closest('.opt'); if (!o) return;
-    save(); var k = o.dataset.k; a[k] = (i === steps.length && a[k] === o.dataset.v) ? '' : o.dataset.v; draw();
-    if (i === 0) { i++; draw(); }
-  });
+  var titles = { 'Vender': 'Dejame tus datos y hablamos de tu propiedad.', 'Comprar': 'Dejame tus datos y te ayudo a encontrar lo que buscás.', 'Asesoramiento profesional': 'Dejame tus datos y coordinamos una charla.' };
   $('tas-start').addEventListener('click', function () {
-    var open = $('tas-flow').hidden; $('tas-flow').hidden = !open; this.setAttribute('aria-expanded', open); if (open) draw();
+    var open = $('tas-flow').hidden; $('tas-flow').hidden = !open; this.setAttribute('aria-expanded', open);
   });
-  $('tas-back').addEventListener('click', function () {
-    save();
-    if (i === 0) { $('tas-flow').hidden = true; $('tas-start').setAttribute('aria-expanded', 'false'); return; }
-    i--; draw();
+  document.querySelectorAll('#c-step1 .opt').forEach(function (b) {
+    b.addEventListener('click', function () {
+      tipo = b.dataset.v;
+      document.querySelectorAll('#c-step1 .opt').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      $('c-title').textContent = titles[tipo];
+      $('c-step1').hidden = true; $('c-step2').hidden = false; $('f-nombre').focus();
+    });
   });
-  bindNext();
+  $('c-back').addEventListener('click', function () { $('c-step2').hidden = true; $('c-step1').hidden = false; });
+  $('c-step2').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = function (id) { return $(id).value.trim(); };
+    var ok = v('f-nombre') && v('f-apellido') && /\S+@\S+\.\S+/.test(v('f-mail')) && v('f-tel').replace(/\D/g, '').length >= 8;
+    $('c-err').hidden = !!ok; if (!ok) return;
+    var asunto = tipo === 'Asesoramiento profesional' ? 'un asesoramiento profesional' : tipo.toLowerCase() + ' una propiedad';
+    var msg = 'Hola Carla, quiero hacerte una consulta para ' + asunto + '.\n' +
+      '• Nombre: ' + v('f-nombre') + ' ' + v('f-apellido') + '\n' +
+      '• Mail: ' + v('f-mail') + '\n' +
+      '• Teléfono: ' + v('f-tel');
+    window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+  });
 })();
 </script>
 </body>
