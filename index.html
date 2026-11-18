@@ -8,60 +8,41 @@
 <meta property="og:description" content="Venta, alquiler y tasación de propiedades. CUCICBA 7817 · CSI 6351">
 <meta property="og:image" content="https://carlazabala.com.ar/carla-zabala.jpg">
 <meta name="theme-color" content="#FCFBF8">
-<title>Tarjeta Carla Zabala</title>
+<title>Carla Zabala · Asesora inmobiliaria</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap">
 <style>
-/* Layout: flat, left-aligned column like the Instagram posts: thin caps, wide tracking, one terracotta hairline */
+/* Layout: white single column; SCeballos arch as a faint nude watermark; one dark CTA that opens the valuation questions. Light-only by design. */
 :root{
-  --bg:#FCFBF8; --ink:#2B2725; --muted:#8C847D; --line:#DDD6CD; --terra:#D9704A;
-  --sans:"Jost", "Futura", "Century Gothic", system-ui, sans-serif;
+  --bg:#FFFFFF; --ink:#333333; --muted:#7A726C; --line:#ECE7E1; --terra:#9C7B68; --nude:#D8C6BA; --mark:#EFE7E0;
+  --sans:"Montserrat","Helvetica Neue",Arial,sans-serif; color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1D1B19; --ink:#EEE9E3; --muted:#9B928A; --line:#36322E; --terra:#E8835C; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1D1B19; --ink:#EEE9E3; --muted:#9B928A; --line:#36322E; --terra:#E8835C; color-scheme:dark}
-
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;padding:48px 16px 40px;line-height:1.5}
-main{max-width:360px;margin:0 auto;display:flex;flex-direction:column}
-
-.top{display:flex;justify-content:space-between;align-items:flex-start}
-.photo{width:112px;height:112px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
-.logo{width:26px;height:36px;color:var(--terra)}
-
-.hero{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:18px;align-items:center}
-.hero .photo{width:96px;height:96px}
-.kicker{margin:0;font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
-h1{font-weight:300;font-size:1.75rem;line-height:1.12;margin:14px 0 0;text-wrap:balance}
-h1 b{font-weight:600}
-.firma{margin:18px 0 0;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
-.role{font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;margin:10px 0 0}
-.rule{width:56px;height:1px;background:var(--terra);margin:24px 0}
-.meta{font-size:.82rem;color:var(--muted);margin:0;display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
-.meta b{font-weight:400;color:var(--ink);letter-spacing:.12em;font-size:.72rem}
-
-.pitch{font-size:1.02rem;margin:28px 0 32px;max-width:36ch}
-
-.links{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.links a{display:flex;justify-content:space-between;align-items:center;padding:16px 2px;border-bottom:1px solid var(--line);
-  color:var(--ink);text-decoration:none;font-size:.74rem;font-weight:400;letter-spacing:.26em;text-transform:uppercase;transition:padding .2s ease, color .2s ease}
-.links a::after{content:"";width:18px;height:1px;background:currentColor;transition:width .2s ease}
-.links a:hover{color:var(--terra);padding-left:8px}
-.links a:hover::after{width:28px}
-.links a:focus-visible{outline:1px solid var(--terra);outline-offset:2px}
-.links .main a{color:var(--terra)}
-
-.foot{display:flex;align-items:center;gap:16px;margin-top:40px}
-.qr{width:72px;height:72px;background:#FFFFFF;padding:4px;flex:none}
-.qr img,.qr canvas{width:64px!important;height:64px!important;display:block}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;margin:0;padding:40px 16px 40px;line-height:1.5;overflow-x:hidden}
+main{position:relative;max-width:380px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+main>*{position:relative}
+html{overflow-x:hidden}
+.wm{position:absolute!important;width:200px;height:280px;right:-24px;bottom:40px;color:var(--mark);pointer-events:none;z-index:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.id{display:flex;align-items:center;gap:14px}
+.photo{width:58px;height:58px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
+.id p{margin:0;font-size:.9rem;line-height:1.3}.id b{font-weight:600}
+.id small{font-size:.68rem;letter-spacing:.08em;color:var(--muted)}
+h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:balance}h1 b{font-weight:600}
+.pitch{margin:0;font-size:.92rem}
+.links{list-style:none;margin:0;padding:0}
+.links a{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:.7rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.links a::after{content:"→";font-weight:300}
+.where{font-size:.8rem;line-height:1.6}
+.where b{display:block;font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;margin-bottom:4px}
+.mat{margin:0;font-size:.66rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.foot{display:flex;align-items:center;gap:16px;margin-top:8px}
+.qr{width:72px;height:72px;background:#FFFFFF;padding:4px;flex:none;border:1px solid var(--line)}
+.qr img,.qr canvas{width:62px!important;height:62px!important;display:block}
 .foot p{margin:0;font-size:.72rem;color:var(--muted)}
-.copy{font:400 .66rem var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--ink);padding:2px 0;margin-top:6px;cursor:pointer}
-.copy:focus-visible{outline:1px solid var(--terra);outline-offset:3px}
-
-.note{max-width:360px;margin:48px auto 0;font-size:.68rem;color:var(--muted)}
-
+.copy{font:500 .64rem var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--ink);padding:2px 0;margin-top:6px;cursor:pointer}
 /* Tasador */
 .tas{border-bottom:1px solid var(--line)}
 .tas-row{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 2px;background:none;border:0;cursor:pointer;
@@ -95,40 +76,33 @@ h1 b{font-weight:600}
 .bar i{position:absolute;left:0;top:0;height:1px;background:var(--terra);transition:width .25s ease}
 @media (prefers-reduced-motion: reduce){.bar i,.opt{transition:none}}
 @media (prefers-reduced-motion: reduce){.links a,.links a::after{transition:none}}
+
+/* CTA look for the valuation toggle */
+.tas{border:0}
+.tas-row{background:var(--ink)!important;color:#FFFFFF!important;padding:16px 18px!important;font:500 .7rem var(--sans)!important;letter-spacing:.2em!important}
+#tas-flow{padding:18px 2px 8px;border-bottom:1px solid var(--line)}
 </style>
 </head>
 <body>
 
-
 <main>
-  <div class="hero">
-    <div>
-      <p class="kicker">Asesora inmobiliaria</p>
-      <h1>Una mirada integral <b>del negocio inmobiliario</b></h1>
-      <p class="firma">Carla Zabala</p>
-    </div>
-    <img class="photo" src="carla-zabala.jpg" width="96" height="96" alt="Carla Zabala">
+  <svg class="wm" viewBox="0 0 60 84" aria-hidden="true">
+    <path d="M4 82V29a26 26 0 0 1 52 0v53z" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="30" y="56" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-style="italic" font-size="30" fill="currentColor">S</text>
+    <path d="M38 40a12 12 0 1 0 0 18" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="44" cy="52" r="1.8" fill="currentColor"/>
+  </svg>
+
+  <div class="id">
+    <img class="photo" src="carla-zabala.jpg" width="58" height="58" alt="Carla Zabala">
+    <p><b>Carla Zabala</b><br><small>Asesora inmobiliaria</small></p>
   </div>
-  <div class="rule"></div>
 
-  <p class="meta">
-    <b>SCEBALLOS NEGOCIOS INMOBILIARIOS</b>
-    <span>CABA · GBA · Zona Oeste</span>
-    <span>CUCICBA 7817 · CSI 6351</span>
-  </p>
-
+  <h1>¿Estás pensando en <b>vender tu propiedad?</b></h1>
   <p class="pitch">Detrás de cada decisión hay una historia: un final o un nuevo comienzo. Mi compromiso es acompañarte con un asesoramiento profesional, para que decidas con tranquilidad.</p>
 
-
-  <ul class="links">
-    <li class="main"><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
-    <li><a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a></li>
-    <li><a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></li>
-    <li><a href="https://www.sceballos.com.ar" target="_blank" rel="noopener">sceballos.com.ar</a></li>
-  </ul>
-
   <section class="tas" id="tas" aria-live="polite">
-    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Quiero saber el valor de mi propiedad</button>
+    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Quiero vender</button>
     <div id="tas-flow" hidden>
       <p class="lead">Respondé estas 4 consultas y agendamos la visita de tasación.</p>
       <p class="step" id="tas-step"></p>
@@ -140,6 +114,15 @@ h1 b{font-weight:600}
       </div>
     </div>
   </section>
+
+  <ul class="links">
+    <li><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
+    <li><a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></li>
+  </ul>
+
+  <div class="where"><b>Dónde encontrarme</b>SCeballos Negocios Inmobiliarios<br>CABA · GBA · Zona Oeste</div>
+  <p class="mat">CUCICBA 7817 · CSI 6351</p>
 
   <div class="foot">
     <div class="qr" id="qr" aria-label="Código QR de esta tarjeta"></div>
@@ -153,7 +136,7 @@ h1 b{font-weight:600}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 var url = location.origin + location.pathname;
-try { new QRCode(document.getElementById('qr'), { text: url, width: 64, height: 64, colorDark: '#2B2725', colorLight: '#FFFFFF' }); } catch (e) {}
+try { new QRCode(document.getElementById('qr'), { text: url, width: 64, height: 64, colorDark: '#333333', colorLight: '#FFFFFF' }); } catch (e) {}
 document.getElementById('copy').addEventListener('click', function (e) {
   var b = e.currentTarget;
   if (navigator.share) { navigator.share({ title: 'Carla Zabala · Asesora inmobiliaria', url: url }).catch(function(){}); return; }
