@@ -56,6 +56,9 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
 .tas h2{font-weight:300;font-size:1.25rem;letter-spacing:.06em;text-transform:uppercase;margin:0;line-height:1.2}
 .tas .lead{font-size:.8rem;color:var(--muted);margin:0 0 18px}
 .tas .step{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--terra);margin:0 0 6px}
+.thanks{padding:18px 0 22px}
+.thanks .ty{font-size:1.15rem;font-weight:600;margin:0 0 4px}
+.thanks .ty2{font-size:.86rem;margin:0}
 .tas .q{font-size:.95rem;font-weight:300;margin:0 0 14px}
 .tas .lbl{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
@@ -139,6 +142,11 @@ main>:nth-child(3){animation-delay:.08s}main>:nth-child(4){animation-delay:.16s}
         </div>
       </form>
     </div>
+    <div class="thanks" id="tas-ok" hidden>
+      <p class="step">Consulta enviada</p>
+      <p class="ty">¡Muchas gracias por contactarte!</p>
+      <p class="ty2">Recibí tu consulta y en breve te respondo.</p>
+    </div>
   </section>
 
   <p class="contact"><span>Otros canales</span>
@@ -192,8 +200,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
   function norm(s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   function lugar(ph) {
     var lab = a.zona === 'CABA' ? 'Barrio' : 'Localidad';
-    var hint = LUG[a.zona] ? 'Escribí 3 letras y elegí de la lista' : 'Escribí la localidad';
-    return '<div class="ac"><label class="fl">' + lab + '<input id="barrio" type="text" autocomplete="off" placeholder="' + (a.zona ? hint : 'Primero elegí la zona') + '" value="' + esc(a.barrio || '') + '"' + (a.zona ? '' : ' disabled') + '></label><ul class="sug" id="sug" role="listbox" hidden></ul></div>';
+    return '<div class="ac"><label class="fl">' + lab + '<input id="barrio" type="text" autocomplete="off" value="' + esc(a.barrio || '') + '"' + (a.zona ? '' : ' disabled') + '></label><ul class="sug" id="sug" role="listbox" hidden></ul></div>';
   }
   var zonas = ['CABA', 'GBA', 'Zona Oeste', 'Otra'], tipos = ['Departamento', 'Casa', 'PH', 'Otro'], amb = ['1', '2', '3', '4', '5 o más'];
   var datos = { q: 'Dejame tus datos y te contacto.', html: function () {
@@ -268,7 +275,9 @@ document.getElementById('copy').addEventListener('click', function (e) {
       ? 'Hola Carla, me interesa vender mi propiedad. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + (a.m2 ? ', ' + a.m2 + ' m²' : '') + '\n'
       : 'Hola Carla, estoy buscando una propiedad para comprar. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + '\n' + '• Crédito hipotecario: ' + a.credito.toLowerCase() + '\n' + (a.presu ? '• Presupuesto: USD ' + a.presu + '\n' : '');
     msg += '• ' + a.nombre + ' ' + a.apellido + ' · ' + a.mail + ' · ' + a.tel + '\n¡Gracias!';
-    window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+    var wa = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+    $('tas-flow').hidden = true; document.querySelector('.paths').hidden = true; $('tas-ok').hidden = false;
+    var w = window.open(wa, '_blank'); if (w) w.opener = null; else window.location.href = wa;
   });
 })();
 </script>
