@@ -77,11 +77,19 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
 @media (prefers-reduced-motion: reduce){.bar i,.opt{transition:none}}
 @media (prefers-reduced-motion: reduce){.links a,.links a::after{transition:none}}
 
-/* CTA look for the valuation toggle */
+/* Two primary paths */
 .tas{border:0}
-.tas-row{background:var(--ink)!important;color:#FFFFFF!important;padding:16px 18px!important;font:500 .7rem var(--sans)!important;letter-spacing:.2em!important}
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.path{font:500 .68rem var(--sans);letter-spacing:.18em;text-transform:uppercase;padding:16px 8px;cursor:pointer;background:var(--ink);color:#FFFFFF;border:1px solid var(--ink)}
+.path.alt{background:#FFFFFF;color:var(--ink)}
+.path[aria-expanded="true"]{outline:2px solid var(--nude);outline-offset:2px}
+.contact{margin:0;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+.contact span{width:100%;font-size:.6rem;font-weight:600;letter-spacing:.24em;color:var(--muted)}
+.contact a{border-bottom:1px solid var(--nude);padding-bottom:1px}
 #tas-flow{padding:18px 2px 8px;border-bottom:1px solid var(--line)}
 .fields{display:flex;flex-direction:column;gap:14px}
+.fl{display:flex;flex-direction:column;font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.fl input{margin-top:4px;font:300 1rem var(--sans);text-transform:none;letter-spacing:0}
 .fields label{display:flex;flex-direction:column;font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 .fields input{margin-top:4px;font:300 1rem var(--sans);text-transform:none;letter-spacing:0}
 .err{margin:12px 0 0;font-size:.76rem;color:#A1452B}
@@ -97,44 +105,32 @@ h1{margin:6px 0 0;font-size:1.8rem;line-height:1.12;font-weight:300;text-wrap:ba
     <p><b>Carla Zabala</b><br><small>Asesora inmobiliaria</small></p>
   </div>
 
-  <h1>¿Estás pensando en <b>vender tu propiedad?</b></h1>
+  <h1>¿Estás pensando en <b>vender o comprar una propiedad?</b></h1>
   <p class="pitch">Detrás de cada decisión hay una historia: un final o un nuevo comienzo. Mi compromiso es acompañarte con un asesoramiento profesional, para que decidas con tranquilidad.</p>
 
   <section class="tas" id="tas" aria-live="polite">
-    <button class="tas-row" type="button" id="tas-start" aria-expanded="false">Hacé tu consulta</button>
+    <div class="paths">
+      <button class="path" type="button" data-path="vender" aria-expanded="false">Quiero vender</button>
+      <button class="path alt" type="button" data-path="comprar" aria-expanded="false">Quiero comprar</button>
+    </div>
     <div id="tas-flow" hidden>
-      <div id="c-step1">
-        <p class="step">Paso 1 de 2</p>
-        <p class="q">¿En qué te puedo ayudar?</p>
-        <div class="opts" role="group">
-          <button type="button" class="opt" data-v="Vender">Vender</button>
-          <button type="button" class="opt" data-v="Comprar">Comprar</button>
-          <button type="button" class="opt" data-v="Asesoramiento profesional">Asesoramiento profesional</button>
-        </div>
-      </div>
-      <form id="c-step2" hidden novalidate>
-        <p class="step">Paso 2 de 2</p>
-        <p class="q" id="c-title"></p>
-        <div class="fields">
-          <label>Nombre<input id="f-nombre" type="text" autocomplete="given-name" required></label>
-          <label>Apellido<input id="f-apellido" type="text" autocomplete="family-name" required></label>
-          <label>Mail<input id="f-mail" type="email" autocomplete="email" required></label>
-          <label>Teléfono<input id="f-tel" type="tel" autocomplete="tel" inputmode="tel" required></label>
-        </div>
-        <p class="err" id="c-err" hidden>Completá todos los datos para enviar la consulta.</p>
+      <p class="step" id="c-step"></p>
+      <div class="bar"><i id="c-bar"></i></div>
+      <form id="c-form" novalidate>
+        <div id="c-body"></div>
+        <p class="err" id="c-err" hidden></p>
         <div class="nav">
           <button class="back" type="button" id="c-back">Volver</button>
-          <button class="go" type="submit">Enviar consulta</button>
+          <button class="go" type="submit" id="c-next">Siguiente</button>
         </div>
       </form>
     </div>
   </section>
 
-  <ul class="links">
-    <li><a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a></li>
-    <li><a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a></li>
-    <li><a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></li>
-  </ul>
+  <p class="contact"><span>Otros canales</span>
+    <a href="https://wa.me/5491157222608?text=Hola%20Carla%2C%20quiero%20consultar%20por%20una%20propiedad" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="https://www.instagram.com/carlaszabala/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.linkedin.com/in/carlaszabala/" target="_blank" rel="noopener">LinkedIn</a></p>
 
   <div class="where"><b>Dónde encontrarme</b>SCeballos Negocios Inmobiliarios<br>CABA · GBA · Zona Oeste</div>
   <p class="mat">CUCICBA 7817 · CSI 6351</p>
@@ -163,31 +159,75 @@ document.getElementById('copy').addEventListener('click', function (e) {
 
 <script>
 (function () {
-  var WA = '5491157222608', tipo = '';
+  var WA = '5491157222608';
   var $ = function (id) { return document.getElementById(id); };
-  var titles = { 'Vender': 'Dejame tus datos y hablamos de tu propiedad.', 'Comprar': 'Dejame tus datos y te ayudo a encontrar lo que buscás.', 'Asesoramiento profesional': 'Dejame tus datos y coordinamos una charla.' };
-  $('tas-start').addEventListener('click', function () {
-    var open = $('tas-flow').hidden; $('tas-flow').hidden = !open; this.setAttribute('aria-expanded', open);
-  });
-  document.querySelectorAll('#c-step1 .opt').forEach(function (b) {
+  var path = '', i = 0, a = {};
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function chips(k, list) {
+    return '<div class="opts" role="group">' + list.map(function (v) {
+      return '<button type="button" class="opt" data-k="' + k + '" data-v="' + v + '" aria-pressed="' + (a[k] === v) + '">' + v + '</button>';
+    }).join('') + '</div>';
+  }
+  function input(id, label, type, ph, extra) {
+    return '<label class="fl">' + label + '<input id="' + id + '" type="' + type + '" placeholder="' + (ph || '') + '" value="' + esc(a[id] || '') + '" ' + (extra || '') + '></label>';
+  }
+  var zonas = ['CABA', 'GBA', 'Zona Oeste', 'Otra'], tipos = ['Departamento', 'Casa', 'PH', 'Otro'], amb = ['1', '2', '3', '4', '5 o más'];
+  var datos = { q: 'Dejame tus datos y te contacto.', html: function () {
+      return '<div class="fields">' + input('nombre', 'Nombre', 'text', '', 'autocomplete="given-name"') + input('apellido', 'Apellido', 'text', '', 'autocomplete="family-name"') +
+        input('mail', 'Mail', 'email', '', 'autocomplete="email"') + input('tel', 'Teléfono', 'tel', '', 'autocomplete="tel" inputmode="tel"') + '</div>';
+    }, ok: function () { return a.nombre && a.apellido && /\S+@\S+\.\S+/.test(a.mail || '') && (a.tel || '').replace(/\D/g, '').length >= 8; },
+    err: 'Completá nombre, apellido, mail y teléfono.' };
+  var flows = {
+    vender: [
+      { q: '¿Dónde está tu propiedad?', html: function () { return chips('zona', zonas) + '<p class="lbl">Barrio o localidad</p>' + input('barrio', '', 'text', 'Ej: Caballito'); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
+      { q: '¿Qué tipo de propiedad es?', html: function () { return chips('tipo', tipos) + '<p class="lbl">Ambientes</p>' + chips('amb', amb); }, ok: function () { return a.tipo && a.amb; }, err: 'Elegí el tipo y los ambientes.' },
+      { q: '¿Cuántos m² tiene, más o menos?', html: function () { return input('m2', '', 'number', 'Ej: 65 (opcional)', 'inputmode="numeric" min="10"'); }, ok: function () { return true; } },
+      datos
+    ],
+    comprar: [
+      { q: '¿Dónde estás buscando?', html: function () { return chips('zona', zonas) + '<p class="lbl">Barrio o localidad</p>' + input('barrio', '', 'text', 'Ej: Ramos Mejía'); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
+      { q: '¿Qué tipo de propiedad buscás?', html: function () { return chips('tipo', tipos) + '<p class="lbl">Ambientes</p>' + chips('amb', amb); }, ok: function () { return a.tipo && a.amb; }, err: 'Elegí el tipo y los ambientes.' },
+      { q: '¿Tenés un presupuesto aproximado?', html: function () { return input('presu', 'En dólares', 'text', 'Ej: 120.000 (opcional)', 'inputmode="numeric"'); }, ok: function () { return true; } },
+      datos
+    ]
+  };
+  function save() { ['barrio', 'm2', 'presu', 'nombre', 'apellido', 'mail', 'tel'].forEach(function (k) { var el = $(k); if (el) a[k] = el.value.trim(); }); }
+  function draw() {
+    var st = flows[path];
+    $('c-step').textContent = (path === 'vender' ? 'Vender' : 'Comprar') + ' · Paso ' + (i + 1) + ' de ' + st.length;
+    $('c-bar').style.width = ((i + 1) / st.length * 100) + '%';
+    $('c-body').innerHTML = '<p class="q">' + st[i].q + '</p>' + st[i].html();
+    $('c-next').textContent = i === st.length - 1 ? 'Enviar consulta' : 'Siguiente';
+    $('c-err').hidden = true;
+  }
+  document.querySelectorAll('.path').forEach(function (b) {
     b.addEventListener('click', function () {
-      tipo = b.dataset.v;
-      document.querySelectorAll('#c-step1 .opt').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-      $('c-title').textContent = titles[tipo];
-      $('c-step1').hidden = true; $('c-step2').hidden = false; $('f-nombre').focus();
+      var same = path === b.dataset.path && !$('tas-flow').hidden;
+      document.querySelectorAll('.path').forEach(function (x) { x.setAttribute('aria-expanded', 'false'); });
+      if (same) { $('tas-flow').hidden = true; return; }
+      if (path !== b.dataset.path) { path = b.dataset.path; i = 0; a = {}; }
+      b.setAttribute('aria-expanded', 'true'); $('tas-flow').hidden = false; draw();
     });
   });
-  $('c-back').addEventListener('click', function () { $('c-step2').hidden = true; $('c-step1').hidden = false; });
-  $('c-step2').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = function (id) { return $(id).value.trim(); };
-    var ok = v('f-nombre') && v('f-apellido') && /\S+@\S+\.\S+/.test(v('f-mail')) && v('f-tel').replace(/\D/g, '').length >= 8;
-    $('c-err').hidden = !!ok; if (!ok) return;
-    var asunto = tipo === 'Asesoramiento profesional' ? 'un asesoramiento profesional' : tipo.toLowerCase() + ' una propiedad';
-    var msg = 'Hola Carla, quiero hacerte una consulta para ' + asunto + '.\n' +
-      '• Nombre: ' + v('f-nombre') + ' ' + v('f-apellido') + '\n' +
-      '• Mail: ' + v('f-mail') + '\n' +
-      '• Teléfono: ' + v('f-tel');
+  $('c-body').addEventListener('click', function (e) {
+    var o = e.target.closest('.opt'); if (!o) return;
+    save(); a[o.dataset.k] = o.dataset.v; draw();
+  });
+  $('c-back').addEventListener('click', function () {
+    save(); if (i === 0) { $('tas-flow').hidden = true; document.querySelectorAll('.path').forEach(function (x) { x.setAttribute('aria-expanded', 'false'); }); return; }
+    i--; draw();
+  });
+  $('c-form').addEventListener('submit', function (e) {
+    e.preventDefault(); save();
+    var st = flows[path];
+    if (!st[i].ok()) { $('c-err').textContent = st[i].err; $('c-err').hidden = false; return; }
+    if (i < st.length - 1) { i++; draw(); return; }
+    var lugar = a.barrio ? a.barrio + ' (' + a.zona + ')' : a.zona;
+    var prop = a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes');
+    var msg = path === 'vender'
+      ? 'Hola Carla, me interesa vender mi propiedad. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + (a.m2 ? ', ' + a.m2 + ' m²' : '') + '\n'
+      : 'Hola Carla, estoy buscando una propiedad para comprar. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + '\n' + (a.presu ? '• Presupuesto: USD ' + a.presu + '\n' : '');
+    msg += '• ' + a.nombre + ' ' + a.apellido + ' · ' + a.mail + ' · ' + a.tel + '\n¡Gracias!';
     window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
   });
 })();
