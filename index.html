@@ -120,7 +120,7 @@ main>:nth-child(3){animation-delay:.08s}main>:nth-child(4){animation-delay:.16s}
   <section class="tas" id="tas" aria-live="polite">
     <div class="paths">
       <button class="path" type="button" data-path="vender" aria-expanded="false"><span>Vender</span><small>Tasación y estrategia de venta</small></button>
-      <button class="path alt" type="button" data-path="comprar" aria-expanded="false"><span>Comprar</span><small>Con ahorro o crédito hipotecario</small></button>
+      <button class="path alt" type="button" data-path="comprar" aria-expanded="false"><span>Comprar</span><small>Con o sin crédito hipotecario</small></button>
     </div>
     <div id="tas-flow" hidden>
       <p class="step" id="c-step"></p>
@@ -193,9 +193,9 @@ document.getElementById('copy').addEventListener('click', function (e) {
       datos
     ],
     comprar: [
+      { q: '¿Vas a comprar con crédito hipotecario?', html: function () { return chips('credito', ['Sí', 'No', 'Todavía no sé']); }, ok: function () { return a.credito; }, err: 'Elegí una opción.' },
       { q: '¿Dónde estás buscando?', html: function () { return chips('zona', zonas) + '<p class="lbl">Barrio o localidad</p>' + input('barrio', '', 'text', 'Ej: Ramos Mejía'); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
       { q: '¿Qué tipo de propiedad buscás?', html: function () { return chips('tipo', tipos) + '<p class="lbl">Ambientes</p>' + chips('amb', amb); }, ok: function () { return a.tipo && a.amb; }, err: 'Elegí el tipo y los ambientes.' },
-      { q: '¿Cómo pensás comprar?', html: function () { return chips('pago', ['Con ahorro propio', 'Con crédito hipotecario', 'Vendiendo otra propiedad', 'Todavía no sé']); }, ok: function () { return a.pago; }, err: 'Elegí una opción.' },
       { q: '¿Tenés un presupuesto aproximado?', html: function () { return input('presu', 'En dólares', 'text', 'Ej: 120.000 (opcional)', 'inputmode="numeric"'); }, ok: function () { return true; } },
       datos
     ]
@@ -235,7 +235,7 @@ document.getElementById('copy').addEventListener('click', function (e) {
     var prop = a.tipo + ', ' + a.amb + (a.amb === '1' ? ' ambiente' : ' ambientes');
     var msg = path === 'vender'
       ? 'Hola Carla, me interesa vender mi propiedad. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + (a.m2 ? ', ' + a.m2 + ' m²' : '') + '\n'
-      : 'Hola Carla, estoy buscando una propiedad para comprar. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + '\n' + '• Forma de compra: ' + a.pago.toLowerCase() + '\n' + (a.presu ? '• Presupuesto: USD ' + a.presu + '\n' : '');
+      : 'Hola Carla, estoy buscando una propiedad para comprar. Te dejo algunos datos:\n• ' + lugar + '\n• ' + prop + '\n' + '• Crédito hipotecario: ' + a.credito.toLowerCase() + '\n' + (a.presu ? '• Presupuesto: USD ' + a.presu + '\n' : '');
     msg += '• ' + a.nombre + ' ' + a.apellido + ' · ' + a.mail + ' · ' + a.tel + '\n¡Gracias!';
     window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
   });
