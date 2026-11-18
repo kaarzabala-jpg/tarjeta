@@ -97,6 +97,11 @@ main>:nth-child(3){animation-delay:.08s}main>:nth-child(4){animation-delay:.16s}
 .contact a{border-bottom:1px solid var(--nude);padding-bottom:1px}
 #tas-flow{padding:18px 2px 8px;border-bottom:1px solid var(--line)}
 .fields{display:flex;flex-direction:column;gap:14px}
+#c-body{position:relative;z-index:3}
+.ac{position:relative;margin-top:16px;z-index:4}
+.sug{position:absolute;left:0;right:0;top:100%;z-index:5;list-style:none;margin:2px 0 0;padding:4px 0;background:#FFFFFF;border:1px solid var(--line);box-shadow:0 12px 24px -16px rgba(51,51,51,.5)}
+.sug li{padding:10px 12px;font-size:.88rem;cursor:pointer}
+.sug li:hover,.sug li:focus{background:var(--line);outline:none}
 .fl{display:flex;flex-direction:column;font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 .fl input{margin-top:4px;font:300 1rem var(--sans);text-transform:none;letter-spacing:0}
 .fields label{display:flex;flex-direction:column;font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
@@ -179,6 +184,17 @@ document.getElementById('copy').addEventListener('click', function (e) {
   function input(id, label, type, ph, extra) {
     return '<label class="fl">' + label + '<input id="' + id + '" type="' + type + '" placeholder="' + (ph || '') + '" value="' + esc(a[id] || '') + '" ' + (extra || '') + '></label>';
   }
+  var LUG = {
+    'CABA': ['Agronomía','Almagro','Balvanera','Barracas','Belgrano','Boedo','Caballito','Chacarita','Coghlan','Colegiales','Constitución','Flores','Floresta','La Boca','La Paternal','Liniers','Mataderos','Monte Castro','Montserrat','Nueva Pompeya','Núñez','Palermo','Parque Avellaneda','Parque Chacabuco','Parque Chas','Parque Patricios','Puerto Madero','Recoleta','Retiro','Saavedra','San Cristóbal','San Nicolás','San Telmo','Vélez Sarsfield','Versalles','Villa Crespo','Villa del Parque','Villa Devoto','Villa General Mitre','Villa Lugano','Villa Luro','Villa Ortúzar','Villa Pueyrredón','Villa Real','Villa Riachuelo','Villa Santa Rita','Villa Soldati','Villa Urquiza'],
+    'Zona Oeste': ['Castelar, Morón','Haedo, Morón','El Palomar, Morón','Morón','Villa Sarmiento, Morón','Ramos Mejía, La Matanza','San Justo, La Matanza','Lomas del Mirador, La Matanza','Villa Luzuriaga, La Matanza','Isidro Casanova, La Matanza','González Catán, La Matanza','Gregorio de Laferrere, La Matanza','Tapiales, La Matanza','La Tablada, La Matanza','Ciudad Evita, La Matanza','Aldo Bonzi, La Matanza','Villa Madero, La Matanza','Rafael Castillo, La Matanza','Virrey del Pino, La Matanza','Caseros, Tres de Febrero','Ciudadela, Tres de Febrero','Santos Lugares, Tres de Febrero','Sáenz Peña, Tres de Febrero','Villa Bosch, Tres de Febrero','Martín Coronado, Tres de Febrero','Ciudad Jardín Lomas del Palomar, Tres de Febrero','José Ingenieros, Tres de Febrero','Loma Hermosa, Tres de Febrero','Pablo Podestá, Tres de Febrero','Churruca, Tres de Febrero','Villa Raffo, Tres de Febrero','Hurlingham','William C. Morris, Hurlingham','Villa Tesei, Hurlingham','Ituzaingó','Villa Udaondo, Ituzaingó','Merlo','San Antonio de Padua, Merlo','Libertad, Merlo','Parque San Martín, Merlo','Pontevedra, Merlo','Mariano Acosta, Merlo','Moreno','Paso del Rey, Moreno','La Reja, Moreno','Francisco Álvarez, Moreno','Trujui, Moreno','General Rodríguez','Marcos Paz','Luján'],
+    'GBA': ['Olivos, Vicente López','Florida, Vicente López','Munro, Vicente López','La Lucila, Vicente López','Vicente López','Villa Martelli, Vicente López','Carapachay, Vicente López','Villa Adelina','San Isidro','Martínez, San Isidro','Acassuso, San Isidro','Beccar, San Isidro','Boulogne, San Isidro','San Fernando','Victoria, San Fernando','Tigre','Nordelta, Tigre','Don Torcuato, Tigre','General Pacheco, Tigre','Benavídez, Tigre','El Talar, Tigre','Pilar','Del Viso, Pilar','Escobar','Ingeniero Maschwitz, Escobar','San Martín','Villa Ballester, San Martín','San Andrés, San Martín','José León Suárez, San Martín','San Miguel','Bella Vista, San Miguel','Muñiz, San Miguel','José C. Paz','Malvinas Argentinas','Avellaneda','Sarandí, Avellaneda','Wilde, Avellaneda','Dock Sud, Avellaneda','Gerli','Lanús','Remedios de Escalada, Lanús','Valentín Alsina, Lanús','Monte Chingolo, Lanús','Lomas de Zamora','Banfield, Lomas de Zamora','Temperley, Lomas de Zamora','Turdera, Lomas de Zamora','Llavallol, Lomas de Zamora','Quilmes','Bernal, Quilmes','Don Bosco, Quilmes','Ezpeleta, Quilmes','Berazategui','Hudson, Berazategui','Florencio Varela','Adrogué, Almirante Brown','Burzaco, Almirante Brown','José Mármol, Almirante Brown','Rafael Calzada, Almirante Brown','Longchamps, Almirante Brown','Glew, Almirante Brown','Monte Grande, Esteban Echeverría','Luis Guillón, Esteban Echeverría','El Jagüel, Esteban Echeverría','Ezeiza','Canning','La Plata','City Bell, La Plata']
+  };
+  function norm(s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  function lugar(ph) {
+    var lab = a.zona === 'CABA' ? 'Barrio' : 'Localidad';
+    var hint = LUG[a.zona] ? 'Escribí 3 letras y elegí de la lista' : 'Escribí la localidad';
+    return '<div class="ac"><label class="fl">' + lab + '<input id="barrio" type="text" autocomplete="off" placeholder="' + (a.zona ? hint : 'Primero elegí la zona') + '" value="' + esc(a.barrio || '') + '"' + (a.zona ? '' : ' disabled') + '></label><ul class="sug" id="sug" role="listbox" hidden></ul></div>';
+  }
   var zonas = ['CABA', 'GBA', 'Zona Oeste', 'Otra'], tipos = ['Departamento', 'Casa', 'PH', 'Otro'], amb = ['1', '2', '3', '4', '5 o más'];
   var datos = { q: 'Dejame tus datos y te contacto.', html: function () {
       return '<div class="fields">' + input('nombre', 'Nombre', 'text', '', 'autocomplete="given-name"') + input('apellido', 'Apellido', 'text', '', 'autocomplete="family-name"') +
@@ -187,14 +203,14 @@ document.getElementById('copy').addEventListener('click', function (e) {
     err: 'Completá nombre, apellido, mail y teléfono.' };
   var flows = {
     vender: [
-      { q: '¿Dónde está tu propiedad?', html: function () { return chips('zona', zonas) + '<p class="lbl">Barrio o localidad</p>' + input('barrio', '', 'text', 'Ej: Caballito'); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
+      { q: '¿Dónde está tu propiedad?', html: function () { return chips('zona', zonas) + lugar(); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
       { q: '¿Qué tipo de propiedad es?', html: function () { return chips('tipo', tipos) + '<p class="lbl">Ambientes</p>' + chips('amb', amb); }, ok: function () { return a.tipo && a.amb; }, err: 'Elegí el tipo y los ambientes.' },
       { q: '¿Cuántos m² tiene, más o menos?', html: function () { return input('m2', '', 'number', 'Ej: 65 (opcional)', 'inputmode="numeric" min="10"'); }, ok: function () { return true; } },
       datos
     ],
     comprar: [
       { q: '¿Vas a comprar con crédito hipotecario?', html: function () { return chips('credito', ['Sí', 'No', 'Todavía no sé']); }, ok: function () { return a.credito; }, err: 'Elegí una opción.' },
-      { q: '¿Dónde estás buscando?', html: function () { return chips('zona', zonas) + '<p class="lbl">Barrio o localidad</p>' + input('barrio', '', 'text', 'Ej: Ramos Mejía'); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
+      { q: '¿Dónde estás buscando?', html: function () { return chips('zona', zonas) + lugar(); }, ok: function () { return a.zona; }, err: 'Elegí una zona.' },
       { q: '¿Qué tipo de propiedad buscás?', html: function () { return chips('tipo', tipos) + '<p class="lbl">Ambientes</p>' + chips('amb', amb); }, ok: function () { return a.tipo && a.amb; }, err: 'Elegí el tipo y los ambientes.' },
       { q: '¿Tenés un presupuesto aproximado?', html: function () { return input('presu', 'En dólares', 'text', 'Ej: 120.000 (opcional)', 'inputmode="numeric"'); }, ok: function () { return true; } },
       datos
@@ -220,7 +236,22 @@ document.getElementById('copy').addEventListener('click', function (e) {
   });
   $('c-body').addEventListener('click', function (e) {
     var o = e.target.closest('.opt'); if (!o) return;
-    save(); a[o.dataset.k] = o.dataset.v; draw();
+    save(); if (o.dataset.k === 'zona' && a.zona !== o.dataset.v) a.barrio = ''; a[o.dataset.k] = o.dataset.v; draw();
+  });
+  $('c-body').addEventListener('input', function (e) {
+    if (e.target.id !== 'barrio') return;
+    var list = LUG[a.zona], q = norm(e.target.value.trim()), ul = $('sug');
+    if (!list || q.length < 3) { ul.hidden = true; return; }
+    var hits = list.filter(function (x) { return norm(x).indexOf(q) !== -1; }).slice(0, 6);
+    ul.innerHTML = hits.map(function (x) { return '<li role="option" tabindex="0">' + esc(x) + '</li>'; }).join('');
+    ul.hidden = !hits.length;
+  });
+  $('c-body').addEventListener('mousedown', function (e) {
+    var li = e.target.closest('#sug li'); if (!li) return;
+    e.preventDefault(); $('barrio').value = li.textContent; a.barrio = li.textContent; $('sug').hidden = true;
+  });
+  $('c-body').addEventListener('keydown', function (e) {
+    var li = e.target.closest('#sug li'); if (li && e.key === 'Enter') { e.preventDefault(); $('barrio').value = li.textContent; a.barrio = li.textContent; $('sug').hidden = true; $('barrio').focus(); }
   });
   $('c-back').addEventListener('click', function () {
     save(); if (i === 0) { $('tas-flow').hidden = true; document.querySelectorAll('.path').forEach(function (x) { x.setAttribute('aria-expanded', 'false'); }); return; }
